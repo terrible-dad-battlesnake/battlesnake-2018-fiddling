@@ -1,9 +1,10 @@
-import bottle
+from bottle import request, app
+from game_objects import World
 
-app = bottle.app()
+snake_app = app()
 
 
-@app.post("/start")
+@snake_app.post("/start")
 def start():
     return {
         "name": "Mr. Snek",
@@ -13,11 +14,12 @@ def start():
     }
 
 
-@app.post("/move")
+@snake_app.post("/move")
 def move():
+    world = World(request.json)
     return {
         "move": "left"
     }
 
 
-app.run()
+snake_app.run()
