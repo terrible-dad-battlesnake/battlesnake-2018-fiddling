@@ -4,3 +4,6 @@
 # IntelliJ Files
 *.iml
 .idea
+
+# Python Virtualenv
+venv/
