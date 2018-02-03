@@ -1,4 +1,8 @@
 @deprecated
+# Was originally used as a test app for trying out ne path finding ideas,
+# replaced and superseded by pathfinding.py
+#
+#
 # from bottle import request, app
 # from game_objects import World, Snake
 #
