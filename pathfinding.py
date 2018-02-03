@@ -53,7 +53,7 @@ def dijkstra(world, snake):
     return d, p
 
 
-def buffer_snake(snake):
+def buffer_snake(world, snake):
     """Creates buffer around snake to prevent self-collision.
     :param snake: List of snake's body pieces' positions
     :return: List of buffered positions
@@ -64,6 +64,7 @@ def buffer_snake(snake):
 
     body_buffer = []
 
+    # Add buffer points for snake
     for body_item in snake.body:
         if (body_item[0] + 1) not in snake.body:
             body_buffer.append(tuple(body_item[0] + 1, body_item[1]))
@@ -75,5 +76,12 @@ def buffer_snake(snake):
             body_buffer.append(tuple(body_item[0], body_item[1] - 1))
         else:
             continue
+
+    # If body_buffer point is outside of grid, remove.
+    for item in body_buffer:
+        if item[0] > world.width or item[0] < 0:
+            body_buffer.remove(item)
+        if item[1] > world.height or item[1] < 0:
+            body_buffer.remove(item)
 
     return body_buffer
