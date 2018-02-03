@@ -33,7 +33,7 @@ def dijkstra(world, snake):
         nv_x, nv_y = next_vert[0], next_vert[1]
 
         # ignore if we've already visited this vertex
-        if visited[nv_x][nv_y]:
+        if visited[nv_y][nv_x]:
             continue
 
         # consider neighbors of this vertex
