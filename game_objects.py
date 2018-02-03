@@ -2,6 +2,10 @@
 Classes representing objects in the game (parsed from JSON).
 """
 
+MAP_EMPTY = 0
+MAP_SNAKE = 1
+MAP_FOOD  = 2
+
 
 class Snake:
     def __init__(self, snake_json):
@@ -10,7 +14,9 @@ class Snake:
         self.name = snake_json["name"]
         self.health = int(snake_json["health"])
         self.length = int(snake_json["length"])
-        self.body = set( [(point['x'], point['y']) for point in snake_json["body"]["data"]] )
+
+        self.body = set([(int(point['x']), int(point['y']))
+                         for point in snake_json["body"]["data"]])
 
 
 class World:
@@ -21,12 +27,22 @@ class World:
         self.height = request_json["height"]
         self.turn = request_json["turn"]
 
-        self.food = [(item["x"], item["y"]) for item in request_json["food"]["data"]]
+        # define and populate world map
+        self.map = [[MAP_EMPTY for x in range(self.width)] for y in range(self.height)]
+
+        self.food = []
+        for food_data in request_json["food"]["data"]:
+            self.food.append((int(food_data["x"]), int(food_data["y"])))
+            self.map[food_data["y"]][food_data["x"]] = MAP_FOOD
 
         # snakes are stored in a dictionary indexed by snake id
         self.snakes = {}
         for snake_data in request_json["snakes"]["data"]:
-            self.snakes.update({snake_data["id"]: Snake(snake_data)})
+            new_snake = Snake(snake_data)
+            self.snakes.update({snake_data["id"]: new_snake})
+
+            for body_point in new_snake.body:
+                self.map[body_point[1]][body_point[0]] = MAP_SNAKE
 
         # get your snake by reference (API copies your snake's data)
         self.you = self.snakes[request_json["you"]["id"]]
