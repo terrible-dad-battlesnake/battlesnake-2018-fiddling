@@ -15,8 +15,7 @@ class Snake:
         self.health = int(snake_json["health"])
         self.length = int(snake_json["length"])
 
-        self.body = set([(int(point['x']), int(point['y']))
-                         for point in snake_json["body"]["data"]])
+        self.body = [(int(point['x']), int(point['y'])) for point in snake_json["body"]["data"]]
 
 
 class World:
