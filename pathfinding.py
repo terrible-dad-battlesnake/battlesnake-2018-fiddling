@@ -9,6 +9,21 @@ import game_objects
 from utils import neighbors_of
 
 
+def find_path_dijkstra(x, y, p):
+    """Get the shortest path to a given point in a predecessor matrix.
+    :param x: X coordinate of destination
+    :param y: Y coordinate of destination
+    :param p: Predecessor matrix to get path from.
+    :return List of points in path, starting from snake head [(0, 0),(0, 1)...]
+    """
+    path = []
+    point = p[y][x]
+    while point != -1:
+        path.append(point)
+        point = p[point[1]][point[0]]
+    return path.reverse()
+
+
 def dijkstra(world, snake):
     """Gets the distance "scores" and predecessor matrix from a given snake's
     head.
