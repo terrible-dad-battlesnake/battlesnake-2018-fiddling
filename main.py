@@ -22,4 +22,4 @@ def move():
     }
 
 
-snake_app.run()
+snake_app.run(host='0.0.0.0')
