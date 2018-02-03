@@ -38,7 +38,7 @@ def dijkstra(world, snake):
     visited = [[False for x in range(world.width)] for y in range(world.height)]
 
     # d at the snake's head should be 0 (we're already there, so no cost!)
-    snake_head = snake.body[0]  # Bad assumption! FIXME!!!!!
+    snake_head = snake.body[0]  # Assumption cleared. We are correct.
     d[snake_head[1]][snake_head[0]] = 0
 
     pq = [(1, snake_head)]
@@ -66,3 +66,37 @@ def dijkstra(world, snake):
         visited[nv_y][nv_x] = True
 
     return d, p
+
+
+def buffer_snake(world, snake):
+    """Creates buffer around snake to prevent self-collision.
+    :param snake: List of snake's body pieces' positions
+    :return: List of buffered positions
+    """
+
+    # Created because thought we might need this at a later date.
+    snake_head = snake.body[0] # Assumption cleared. We are correct.
+
+    body_buffer = []
+
+    # Add buffer points for snake
+    for body_item in snake.body:
+        if (body_item[0] + 1) not in snake.body:
+            body_buffer.append(tuple(body_item[0] + 1, body_item[1]))
+        elif (body_item[0] - 1) not in snake.body:
+            body_buffer.append(tuple(body_item[0] - 1, body_item[1]))
+        elif (body_item[1] + 1) not in snake.body:
+            body_buffer.append(tuple(body_item[0], body_item[1] + 1))
+        elif (body_item[1] - 1) not in snake.body:
+            body_buffer.append(tuple(body_item[0], body_item[1] - 1))
+        else:
+            continue
+
+    # If body_buffer point is outside of grid, remove.
+    for item in body_buffer:
+        if item[0] > world.width or item[0] < 0:
+            body_buffer.remove(item)
+        if item[1] > world.height or item[1] < 0:
+            body_buffer.remove(item)
+
+    return body_buffer
