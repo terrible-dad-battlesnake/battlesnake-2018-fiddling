@@ -9,6 +9,35 @@ import game_objects
 from utils import neighbors_of
 
 
+def get_next_move(snake_head, path):
+    """Get the snake's next move in a given path.
+    :param snake_head: Location of the snake's head (x, y).
+    :param path: List of points creating a path from the snake's head.
+                 [ (x, y), (x, y) ... ]
+    :return Next move. One of ("right", "left", "up", "down").
+    """
+    assert type(path) == list, "Path must be a list."
+    assert len(path) > 0, "Cannot get next move for an empty path."
+
+    snakehead_x, snakehead_y = snake_head
+    nextpoint_x, nextpoint_y = path[0]
+    assert type(nextpoint_x) == int, "Invalid X coordinate."
+    assert type(nextpoint_y) == int, "Invalid Y coordinate."
+    assert type(snakehead_x) == int, "Invalid X coordinate."
+    assert type(snakehead_y) == int, "Invalid Y coordinate."
+
+    assert snake_head != path[0], "Next coordinate cannot be the same as snake head"
+
+    if nextpoint_x > snakehead_x:
+        return "left"
+    elif nextpoint_x < snakehead_x:
+        return "right"
+    elif nextpoint_y < snakehead_y:
+        return "up"
+    elif nextpoint_y > snakehead_y:
+        return "down"
+
+
 def find_path_dijkstra(x, y, p):
     """Get the shortest path to a given point in a predecessor matrix.
     :param x: X coordinate of destination
@@ -21,7 +50,9 @@ def find_path_dijkstra(x, y, p):
     while point != -1:
         path.append(point)
         point = p[point[1]][point[0]]
-    return path.reverse()
+
+    path.reverse()
+    return path[1:]
 
 
 def dijkstra(world, snake):
