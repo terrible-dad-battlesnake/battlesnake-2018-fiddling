@@ -17,6 +17,10 @@ class Snake:
 
         self.body = [(int(point['x']), int(point['y'])) for point in snake_json["body"]["data"]]
 
+        # According to Corey, the snake's head should be the 0th element of its body.
+        # I'm still kinda wary of this, but should be ok for the time being :-/
+        self.head = self.body[0]
+
 
 class World:
     def __init__(self, request_json):

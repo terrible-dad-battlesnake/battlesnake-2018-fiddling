@@ -69,10 +69,9 @@ def dijkstra(world, snake):
     visited = [[False for x in range(world.width)] for y in range(world.height)]
 
     # d at the snake's head should be 0 (we're already there, so no cost!)
-    snake_head = snake.body[0]  # Assumption cleared. We are correct.
-    d[snake_head[1]][snake_head[0]] = 0
+    d[snake.head[1]][snake.head[0]] = 0
 
-    pq = [(1, snake_head)]
+    pq = [(1, snake.head)]
     heapify(pq)
     while len(pq) > 0:
         next_vert = heappop(pq)[1]

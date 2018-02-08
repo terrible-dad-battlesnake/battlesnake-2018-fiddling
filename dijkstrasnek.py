@@ -27,7 +27,7 @@ def move():
 
     nextfood_x, nextfood_y = world.food[0]
     path = pathfinding.find_path_dijkstra(nextfood_x, nextfood_y, p)
-    next_move = pathfinding.get_next_move(world.you.body[0], path)
+    next_move = pathfinding.get_next_move(world.you.head, path)
 
     return {
         "move": next_move
