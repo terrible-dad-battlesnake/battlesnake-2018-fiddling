@@ -1,3 +1,14 @@
+import sys
+
+
+def print_matrix(matrix):
+    """Print a 2D matrix to the console."""
+    for ylist in matrix:
+        for item in ylist:
+            sys.stdout.write(str(item) + " ")
+        print()
+
+
 def neighbors_of(x, y, world):
     """Get the neighboring cells of a given cell. Excludes cells that are
     outside the boundaries of the world.
