@@ -29,9 +29,9 @@ def get_next_move(snake_head, path):
     assert snake_head != path[0], "Next coordinate cannot be the same as snake head"
 
     if nextpoint_x > snakehead_x:
-        return "left"
-    elif nextpoint_x < snakehead_x:
         return "right"
+    elif nextpoint_x < snakehead_x:
+        return "left"
     elif nextpoint_y < snakehead_y:
         return "up"
     elif nextpoint_y > snakehead_y:
