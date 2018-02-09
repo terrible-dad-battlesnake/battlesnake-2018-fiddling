@@ -15,7 +15,10 @@ app = bottle.app()
 def start():
     return {
         "name": "Dijkstrasnek",
-        "taunt": "Booo application. Yay theory!"
+        "taunt": "Booo application. Yay theory!",
+        "color": "#03A9F4",
+        "head_type": "tongue",
+        "tail_type": "block-bum"
     }
 
 
