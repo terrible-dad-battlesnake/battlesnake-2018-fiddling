@@ -3,9 +3,9 @@ Assorted pathfinding algorithms.
 """
 
 import math
-from heapq import heapify, heappop, heappush
-
 import game_objects
+import numpy as np
+from heapq import heapify, heappop, heappush
 from utils import neighbors_of
 
 
@@ -48,8 +48,9 @@ def find_path_dijkstra(x, y, p):
     path = []
     point = p[y][x]
     while point != -1:
-        path.append(point)
-        point = p[point[1]][point[0]]
+        px, py = int(point % p.shape[0]), int(point / p.shape[0])
+        path.append((px, py))
+        point = p[py][px]
 
     path.reverse()
     return path[1:]
@@ -61,12 +62,13 @@ def dijkstra(world, snake):
     :param world: World object to map for the snake.
     :param snake: Snake to calculate distances from.
     :return: d[] and p[] matrices for each point on the map.
+        - p[] matrix uses integers as vertex labels: (y * width) + x
         - None indicates the head of the snake (source node).
         - -1 indicates an inaccessible point.
     """
-    d = [[math.inf for x in range(world.width)] for y in range(world.height)]
-    p = [[None for x in range(world.width)] for y in range(world.height)]
-    visited = [[False for x in range(world.width)] for y in range(world.height)]
+    d = np.full((world.width, world.height), np.inf)
+    p = np.full((world.width, world.height), -1)
+    visited = np.full((world.width, world.height), False, dtype=np.bool)
 
     # d at the snake's head should be 0 (we're already there, so no cost!)
     d[snake.head[1]][snake.head[0]] = 0
@@ -88,7 +90,7 @@ def dijkstra(world, snake):
                 p[y][x] = -1
             elif d[nv_y][nv_x] + 1 < d[y][x]:
                 d[y][x] = d[nv_y][nv_x] + 1
-                p[y][x] = (nv_x, nv_y)
+                p[y][x] = world.width * nv_y + nv_x
 
                 # re-add to pq if d[] was updated
                 heappush(pq, (d[y][x], (x, y)))
